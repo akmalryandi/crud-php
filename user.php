@@ -1,21 +1,21 @@
 <?php
-    include 'connect.php';
-    if (isset($_POST['submit'])) {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $mobile = $_POST['hp'];
-        $password = $_POST['password'];
+include 'connect.php';
+if (isset($_POST['submit'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $mobile = $_POST['hp'];
+    $password = $_POST['password'];
 
-        $sql = "INSERT INTO data(nama,email,mobile,pasword) 
+    $sql = "INSERT INTO data(nama,email,mobile,pasword) 
                 VALUES('$name','$email','$mobile','$password')";
-        $result=mysqli_query($con,$sql);
+    $result = mysqli_query($con, $sql);
 
-        if (!$result) {
-            die(mysqli_error($con));
-        }else {
-            header('location:index.php');
-        }
+    if (!$result) {
+        die(mysqli_error($con));
+    } else {
+        header('location:index.php');
     }
+}
 ?>
 
 
@@ -57,8 +57,6 @@
             <button type="submit" name="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
-
-
 </body>
 
 </html>

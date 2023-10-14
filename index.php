@@ -19,58 +19,46 @@ $read = mysqli_query($con, $sql);
 </head>
 
 <body>
-    <div class="container mt-5 pt-5">
-        <a href="user.php"><button class="btn btn-primary">Tambah</button></a>
+    <h1 class="text-center mt-2 mb-3">Data Table</h1>
+    <div class="container bg-secondary text-white rounded-3">
+        <div class="row p-3">
+            <a href="user.php"><button class="btn btn-primary mb-2">Tambah</button></a>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">No HP</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if (!$read) {
-                    echo "Gagal Tampil" . mysqli_error($con);
-                    die;
-                } else {
-                    $nomor = 1;
-                    while ($data = mysqli_fetch_array($read)) {
-                        echo '<tr>';
-                        echo '<th>' . $nomor . '</th>';
-                        echo '<td>' . $data['nama'] . '</td>';
-                        echo '<td>' . $data['email'] . '</td>';
-                        echo '<td>' . $data['mobile'] . '</td>';
-                        echo '<td><a href="update.php"><button class="btn btn-outline-secondary">Update</button></a>
-                                <a href="delete.php"><button class="btn btn-outline-danger">Delete</button></a></td>';
-                        echo '</tr>';
-                        $nomor++;
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">No HP</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if (!$read) {
+                        echo "Gagal Tampil" . mysqli_error($con);
+                        die;
+                    } else {
+                        $nomor = 1;
+                        while ($data = mysqli_fetch_array($read)) {
+                            echo '<tr>';
+                            echo '<th>' . $nomor . '</th>';
+                            echo '<td>' . $data['nama'] . '</td>';
+                            echo '<td>' . $data['email'] . '</td>';
+                            echo '<td>' . $data['mobile'] . '</td>';
+                            echo '<td><a href="update.php?updateid=' . $data['id'] . '"><button class="btn btn-outline-secondary">Update</button></a>
+                                <a href="delete.php?deleteid=' . $data['id'] . '"><button class="btn btn-outline-danger">Delete</button></a></td>';
+                            echo '</tr>';
+                            $nomor++;
+                        }
                     }
-                }
-                ?>
-            
-            </tbody>
-        </table>
+                    ?>
+
+                </tbody>
+            </table>
+        </div>
     </div>
-
-
-    <!-- if (!$read) {
-        echo "Gagal Tampil" . mysqli_error($con);
-        die;
-    } else {
-        while ($data = mysqli_fetch_array($read)) {
-            echo 'Id = ' . $data['id'] . '<br>';
-            echo 'Nama = ' . $data['nama'] . '<br>';
-            echo 'Email = ' . $data['email'] . '<br>';
-            echo 'No HP = ' . $data['mobile'] . '<br>';
-        }
-    } -->
-
-
 </body>
 
 </html>
