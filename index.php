@@ -22,7 +22,7 @@ $read = mysqli_query($con, $sql);
     <h1 class="text-center mt-2 mb-3">Data Table</h1>
     <div class="container bg-secondary text-white rounded-3">
         <div class="row p-3">
-            <a href="user.php"><button class="btn btn-primary mb-2">Tambah</button></a>
+            <a href="add.php"><button class="btn btn-dark mb-2">Tambah</button></a>
 
             <table class="table table-dark table-striped">
                 <thead>
