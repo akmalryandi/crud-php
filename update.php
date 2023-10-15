@@ -1,5 +1,5 @@
 <?php
-include 'connect.php';
+include 'db/connect.php';
 
 $id = $_GET['updateid'];
 if (isset($_POST['submit'])) {
@@ -62,7 +62,7 @@ $data = mysqli_fetch_assoc($hasil);
 
 <body>
     <h1 class="text-center mt-2 mb-3">Update Data</h1>
-    <div class="container bg-secondary text-white rounded-3">
+    <div class="container rounded-3">
         <div class="row p-3">
             <form method="post" enctype="multipart/form-data">
                 <div class="mb-3">
