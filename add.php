@@ -1,13 +1,17 @@
 <?php
 include 'connect.php';
 if (isset($_POST['submit'])) {
-    $gambar = $_POST['gambar'];
+
+    $direktori = "image/";
+    $file_name = $_FILES['gambar']['name'];
+    move_uploaded_file($_FILES['gambar']['tmp_name'],$direktori.$file_name);
+
     $name = $_POST['name'];
     $email = $_POST['email'];
     $mobile = $_POST['hp'];
 
     $sql = "INSERT INTO data(gambar,nama,email,mobile) 
-                VALUES('$gambar','$name','$email','$mobile')";
+                VALUES('$file_name','$name','$email','$mobile')";
     $result = mysqli_query($con, $sql);
 
     if (!$result) {
@@ -39,7 +43,7 @@ if (isset($_POST['submit'])) {
     <h1 class="text-center mt-2 mb-3">Tambah Data</h1>
     <div class="container bg-secondary text-white rounded-3">
         <div class="row p-3">
-            <form method="post" action="add.php">
+            <form method="post" action="add.php" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="name" name="name" autocomplete="off" Required>
@@ -53,7 +57,7 @@ if (isset($_POST['submit'])) {
                     <input type="text" class="form-control" id="hp" name="hp" autocomplete="off" Required>
                 </div>
                 <div class="mb-3">
-                    <label for="gambar">Pilih gambar:</label>
+                    <label for="gambar">Pilih gambar</label>
                     <input type="file" class="form-control" name="gambar" id="gambar" accept="image/*" Required>
                 </div>
                 <button type="submit" name="submit" class="btn btn-dark">Submit</button>

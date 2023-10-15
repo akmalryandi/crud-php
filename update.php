@@ -3,10 +3,26 @@ include 'connect.php';
 
 $id = $_GET['updateid'];
 if (isset($_POST['submit'])) {
+
+    $sql2 = "SELECT * FROM data WHERE id=$id";
+        $result2 = mysqli_query($con,$sql2);
+        $data = mysqli_fetch_assoc($result2);
+
+        if ($_FILES['gambar']['name'] != "") {
+            $gambar = $_FILES['gambar']['name'];
+            unlink("image/".$data['gambar']);
+            move_uploaded_file($_FILES['gambar']['tmp_name'], "image/".$gambar);
+        }else {
+            $gambar = $data['gambar'];
+        }
+        
+    // $direktori = "image/";
+    // $file_name = $_FILES['gambar']['name'];
+    // move_uploaded_file($_FILES['gambar']['tmp_name'], $direktori . $file_name);
+
     $name = $_POST['name'];
     $email = $_POST['email'];
     $mobile = $_POST['hp'];
-    $gambar = $_POST['gambar'];
 
     $sql = "UPDATE data SET id = $id, nama='$name', email='$email', mobile='$mobile', gambar='$gambar'
             where id=$id";
@@ -48,7 +64,7 @@ $data = mysqli_fetch_assoc($hasil);
     <h1 class="text-center mt-2 mb-3">Update Data</h1>
     <div class="container bg-secondary text-white rounded-3">
         <div class="row p-3">
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="name" name="name" autocomplete="off" Required
@@ -66,8 +82,7 @@ $data = mysqli_fetch_assoc($hasil);
                 </div>
                 <div class="mb-3">
                     <label for="gambar">Pilih gambar:</label>
-                    <input type="file" class="form-control" name="gambar" id="gambar" accept="image/*" Required
-                        value="<?php echo $data['gambar']; ?>">
+                    <input type="file" class="form-control" name="gambar" id="gambar">
 
                 </div>
                 <button type="submit" name="submit" class="btn btn-dark">Update</button>

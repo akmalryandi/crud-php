@@ -1,0 +1,7 @@
+@media (max-width: 991px) {
+  .table-respon2 {
+    overflow-x: scroll;
+    display: block;
+    width: 100%;
+  }
+}
