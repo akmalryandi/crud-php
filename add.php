@@ -1,13 +1,13 @@
 <?php
 include 'connect.php';
 if (isset($_POST['submit'])) {
+    $gambar = $_POST['gambar'];
     $name = $_POST['name'];
     $email = $_POST['email'];
     $mobile = $_POST['hp'];
-    $password = $_POST['password'];
 
-    $sql = "INSERT INTO data(nama,email,mobile,pasword) 
-                VALUES('$name','$email','$mobile','$password')";
+    $sql = "INSERT INTO data(gambar,nama,email,mobile) 
+                VALUES('$gambar','$name','$email','$mobile')";
     $result = mysqli_query($con, $sql);
 
     if (!$result) {
@@ -53,8 +53,8 @@ if (isset($_POST['submit'])) {
                     <input type="text" class="form-control" id="hp" name="hp" autocomplete="off" Required>
                 </div>
                 <div class="mb-3">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" Required>
+                    <label for="gambar">Pilih gambar:</label>
+                    <input type="file" class="form-control" name="gambar" id="gambar" accept="image/*" Required>
                 </div>
                 <button type="submit" name="submit" class="btn btn-dark">Submit</button>
                 <button class="btn btn-dark" onclick="window.location.href='index.php'">Kembali</button>

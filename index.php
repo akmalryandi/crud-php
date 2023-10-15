@@ -28,6 +28,7 @@ $read = mysqli_query($con, $sql);
                 <thead>
                     <tr>
                         <th scope="col">No</th>
+                        <th scope="col">Picture</th>
                         <th scope="col">Nama</th>
                         <th scope="col">Email</th>
                         <th scope="col">No HP</th>
@@ -44,6 +45,7 @@ $read = mysqli_query($con, $sql);
                         while ($data = mysqli_fetch_array($read)) {
                             echo '<tr>';
                             echo '<th>' . $nomor . '</th>';
+                            echo '<td><img class="rounded-5" src="image/' . $data['gambar'] . '" width="100"></td>';
                             echo '<td>' . $data['nama'] . '</td>';
                             echo '<td>' . $data['email'] . '</td>';
                             echo '<td>' . $data['mobile'] . '</td>';
