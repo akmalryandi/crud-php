@@ -1,7 +1,29 @@
 <?php
 include 'db/connect.php';
-$sql = "SELECT * FROM data";
+
+$dataHalaman = 3;
+$data = mysqli_num_rows(mysqli_query($con, "SELECT * FROM data"));
+$halaman = ceil($data / $dataHalaman);
+$aktifHalaman = (isset($_GET['page'])) ? $_GET['page'] : 1;
+$awalData = ($dataHalaman * $aktifHalaman) - $dataHalaman;
+
+$sql = "SELECT * FROM data LIMIT $awalData, $dataHalaman";
 $read = mysqli_query($con, $sql);
+
+if (isset($_POST['cari'])) {
+    $cari = $_POST['nyari'];
+
+    $sql = "SELECT * FROM data 
+                where 
+                nama like '%$cari%' or
+                email like '%$cari%' or
+                mobile like '%$cari%'
+                LIMIT $awalData, $dataHalaman";
+    $read = mysqli_query($con, $sql);
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -26,13 +48,28 @@ $read = mysqli_query($con, $sql);
 <body>
     <h1 class="text-center mt-2 mb-3">Data Table</h1>
     <div class="container text-white mb-5 rounded-3">
-        <a href="add.php" type="button" class="btn btn-outline-dark"><i class="bi bi-plus-lg"></i></a>
-        <div class="table-responsive-sm row p-3">
 
+        <form action="index.php" method="post">
+            <div class="d-flex bd-highlight pt-5">
+                <div class="me-auto p-2 bd-highlight">
+                    <a href="add.php" type="button" class="btn btn-outline-dark"><i class="bi bi-plus-lg"></i></a>
+                </div>
+                <div class="pe-1 bd-highlight">
+                    <input type="text" class="form-control" id="search" name="nyari" placeholder="Search"
+                        autocomplete="off">
+                </div>
+                <div class="bd-highlight">
+                    <button type="submit" name="cari" class="btn btn-outline-secondary"><i
+                            class="bi bi-search"></i></button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-responsive-sm row p-3">
             <table class="table table-respon2">
                 <thead>
                     <tr class="text-center">
-                        <th scope="col">No</th>
+                        <!-- <th scope="col">No</th> -->
                         <th scope="col">Picture</th>
                         <th scope="col">Nama</th>
                         <th scope="col">Email</th>
@@ -46,10 +83,11 @@ $read = mysqli_query($con, $sql);
                         echo "Gagal Tampil" . mysqli_error($con);
                         die;
                     } else {
-                        $nomor = 1;
+                        // $nomor = 1;
+                    
                         while ($data = mysqli_fetch_array($read)) {
                             echo '<tr class="text-center">';
-                            echo '<th>' . $nomor . '</th>';
+                            // echo '<th>' . $nomor . '</th>';
                             echo '<td><img class="rounded-circle" src="image/' . $data['gambar'] . '" width="100"></td>';
                             echo '<td>' . $data['nama'] . '</td>';
                             echo '<td>' . $data['email'] . '</td>';
@@ -60,13 +98,40 @@ $read = mysqli_query($con, $sql);
                                 <a href="delete.php?deleteid=' . $data['id'] . '">
                                 <button class="btn btn-outline-danger" onclick="return confirm(\'Apakah Anda yakin ingin menghapus data ini?\')"><i class="bi bi-trash3-fill"></i></button></a></td>';
                             echo '</tr>';
-                            $nomor++;
+                            // $nomor++;
                         }
                     }
                     ?>
 
                 </tbody>
             </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <?php if ($aktifHalaman >1) : ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $aktifHalaman - 1?>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <?php endif;?>
+
+                    <?php for ($i = 1; $i <= $halaman; $i++): ?>
+                        <?php if ($i == $aktifHalaman): ?>
+                            <li class="page-item active"><a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a></li>
+                        <?php else: ?>
+                            <li class="page-item"><a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a></li>
+                        <?php endif; ?>
+                    <?php endfor; ?>
+                    
+                    <?php if ($aktifHalaman < $halaman) :?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $aktifHalaman + 1?>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <?php endif;?>
+                </ul>
+            </nav>
         </div>
     </div>
 </body>
