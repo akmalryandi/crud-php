@@ -1,5 +1,11 @@
 <?php
 include 'db/connect.php';
+session_start();
+
+if (!isset($_SESSION['login'])) {
+    header('Location: login.php');
+    exit();
+}
 
 $dataHalaman = 3;
 $data = mysqli_num_rows(mysqli_query($con, "SELECT * FROM data"));
@@ -46,7 +52,7 @@ if (isset($_POST['cari'])) {
 </head>
 
 <body>
-    <h1 class="text-center mt-2 mb-3">Data Table</h1>
+    <h1 class="text-center mt-2 mb-3">Data Table, <?php echo $_SESSION['login']; ?></h1>
     <div class="container text-white mb-5 rounded-3">
 
         <form action="index.php" method="post">
@@ -54,13 +60,15 @@ if (isset($_POST['cari'])) {
                 <div class="me-auto p-2 bd-highlight">
                     <a href="add.php" type="button" class="btn btn-outline-dark"><i class="bi bi-plus-lg"></i></a>
                 </div>
+                <div class="pe-2 bd-highlight">
+                    <input type="text" class="form-control" id="search" name="nyari" placeholder="Search" autocomplete="off">
+                </div>
                 <div class="pe-1 bd-highlight">
-                    <input type="text" class="form-control" id="search" name="nyari" placeholder="Search"
-                        autocomplete="off">
+                    <button type="submit" name="cari" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
                 </div>
                 <div class="bd-highlight">
-                    <button type="submit" name="cari" class="btn btn-outline-secondary"><i
-                            class="bi bi-search"></i></button>
+                    <a href="logout.php" type="button" class="btn btn-dark">logout</i></a>
+                    
                 </div>
             </div>
         </form>
@@ -88,7 +96,7 @@ if (isset($_POST['cari'])) {
                         while ($data = mysqli_fetch_array($read)) {
                             echo '<tr class="text-center">';
                             // echo '<th>' . $nomor . '</th>';
-                            echo '<td><img class="rounded-circle" src="image/' . $data['gambar'] . '" width="100"></td>';
+                            echo '<td><img class="rounded-circle" src="images/' . $data['gambar'] . '" width="100"></td>';
                             echo '<td>' . $data['nama'] . '</td>';
                             echo '<td>' . $data['email'] . '</td>';
                             echo '<td>' . $data['mobile'] . '</td>';

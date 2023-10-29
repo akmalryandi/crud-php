@@ -1,5 +1,12 @@
 <?php
 include 'db/connect.php';
+session_start();
+
+if (!isset($_SESSION['login'])) {
+    header('Location: login.php');
+    exit();
+}
+
 if (isset($_POST['submit'])) {
 
     $direktori = "image/";
@@ -17,7 +24,7 @@ if (isset($_POST['submit'])) {
     if (!$result) {
         die(mysqli_error($con));
     } else {
-        header('location:index.php');
+        header('location:dashboard.php');
     }
 }
 ?>
@@ -61,7 +68,7 @@ if (isset($_POST['submit'])) {
                     <input type="file" class="form-control" name="gambar" id="gambar" accept="image/*" Required>
                 </div>
                 <button type="submit" name="submit" class="btn btn-dark">Submit</button>
-                <button class="btn btn-dark" onclick="window.location.href='index.php'">Kembali</button>
+                <button class="btn btn-dark" onclick="window.location.href='dashboard.php'">Kembali</button>
             </form>
         </div>
     </div>

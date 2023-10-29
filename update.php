@@ -1,5 +1,11 @@
 <?php
 include 'db/connect.php';
+session_start();
+
+if (!isset($_SESSION['login'])) {
+    header('Location: login.php');
+    exit();
+}
 
 $id = $_GET['updateid'];
 if (isset($_POST['submit'])) {
@@ -32,7 +38,7 @@ if (isset($_POST['submit'])) {
     if (!$result) {
         die(mysqli_error($con));
     } else {
-        header('location:index.php');
+        header('location:dashboard.php');
     }
 
 }
